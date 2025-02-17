@@ -25,6 +25,15 @@ jobs:
         with:
           python-version: 3.8.x
 
+      - name: Test if secret exists
+        run: |
+          if [ -z "${{ secrets.SF_PASSWORD }}" ]; then
+            echo "SF_PASSWORD is not set"
+            exit 1
+          else
+            echo "SF_PASSWORD exists (value hidden)"
+          fi
+
       - name: Run schemachange
         env:
           SF_ACCOUNT: ${{ secrets.SF_ACCOUNT }}
