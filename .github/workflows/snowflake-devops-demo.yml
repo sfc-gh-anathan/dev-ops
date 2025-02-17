@@ -25,15 +25,6 @@ jobs:
         with:
           python-version: 3.8.x
 
-      - name: Test if secret exists
-        run: |
-          if [ -z "${{ secrets.SF_PASSWORD }}" ]; then
-            echo "SF_PASSWORD is not set"
-            exit 1
-          else
-            echo "SF_PASSWORD exists (value hidden)"
-          fi
-
       - name: Run schemachange
         env:
           SF_ACCOUNT: ${{ secrets.SF_ACCOUNT }}
@@ -46,7 +37,7 @@ jobs:
           echo "GITHUB_WORKSPACE: $GITHUB_WORKSPACE"
           python --version
           echo "Step 1: Installing schemachange"
-          pip install schemachange
+          pip install schemachange==3.7.0
           
           echo "Step 2: Running schemachange"
           schemachange -f $GITHUB_WORKSPACE/migrations -a $SF_ACCOUNT -u $SF_USERNAME -r $SF_ROLE -w $SF_WAREHOUSE -d $SF_DATABASE -c $SF_DATABASE.SCHEMACHANGE.CHANGE_HISTORY --create-change-history-table
